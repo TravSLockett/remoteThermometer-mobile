@@ -1,5 +1,7 @@
 # remoteThermometer-mobile
 
+NPM INSTALL -> install all the dependencies specified in package.json
+
 **How to Run and Test:**
 
 Install expo on your machine using the: "npm i -g expo-cli" command
