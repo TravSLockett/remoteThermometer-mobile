@@ -3,6 +3,8 @@
 1. npm install -> install all the dependencies specified in package.json
 2. npm start -> start the script for expo
 
+
+
 **How to Run and Test:**
 
 Install expo on your machine using the: "npm i -g expo-cli" command
