@@ -4,8 +4,8 @@ import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import { StackNavigation } from "react-navigation";
 
 export default function App() {
-  const [name, setName] = useState("Mike");
-  const [age, setAge] = useState("20");
+  const [name, setName] = useState();
+  const [age, setAge] = useState();
 
   return (
     <View style={styles.container}>
