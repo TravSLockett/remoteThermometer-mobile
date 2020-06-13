@@ -1,5 +1,6 @@
 # remoteThermometer-mobile
 
+before you do anything:
 1. npm install -> install all the dependencies specified in package.json
 2. npm start -> start the script for expo
 
