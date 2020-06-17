@@ -3,8 +3,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
-import Home from "./screens/Home";
+import LoginPage from "./screens/LoginPage";
 import InfoScreen from "./screens/InfoScreen";
+import RegisterPage from "./screens/RegisterPage";
+import ForgotPassword from "./screens/ForgotPassword";
 
 export default class App extends React.Component {
   render() {
@@ -13,11 +15,17 @@ export default class App extends React.Component {
 }
 
 const AppNavigator = createStackNavigator({
-  Home: {
-    screen: Home,
+  LoginPage: {
+    screen: LoginPage,
   },
   InfoScreen: {
     screen: InfoScreen,
+  },
+  RegisterPage: {
+    screen: RegisterPage,
+  },
+  ForgotPassword: {
+    screen: ForgotPassword,
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+/*import React, { Component, useState } from "react";
 import { Button, View, Text, StyleSheet, TextInput } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
@@ -42,5 +42,66 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 10,
     width: 200,
+  },
+});*/
+
+import React from "react";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+
+export default class InfoScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      dataSource: null,
+    };
+  }
+
+  compenentDidMount() {
+    return fetch("http://{ENTER IP}/user/list")
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson.user,
+        });
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator />
+        </View>
+      );
+    } else {
+      let user = this.state.dataSource.map((val, key) => {
+        return (
+          <View>
+            key={key} style={styles.item}
+            <Text>{val.cpu}</Text>
+          </View>
+        );
+      });
+
+      return <View style={styles.container}>{gpu}</View>;
+    }
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  item: {
+    flex: 1,
   },
 });
