@@ -1,96 +1,83 @@
-/*import React, { Component, useState } from "react";
-import { Button, View, Text, StyleSheet, TextInput } from "react-native";
-import { createStackNavigator, createAppContainer } from "react-navigation";
-
-export default function InfoScreen() {
-  const [name, setName] = useState();
-  const [age, setAge] = useState();
-
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Your Name Here"
-        onChangeText={(val) => setName(val)}
-      />
-      <Text style={styles.fontStyle}>Name: {name}</Text>
-      <TextInput
-        keyboardType="numeric"
-        style={styles.input}
-        placeholder="Enter Your Age Here"
-        onChangeText={(val) => setAge(val)}
-      />
-      <Text style={styles.fontStyle}>Age: {age}</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  fontStyle: {
-    fontSize: 20,
-    color: "dodgerblue",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#777",
-    padding: 8,
-    margin: 10,
-    width: 200,
-  },
-});*/
-
 import React from "react";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 
 export default class InfoScreen extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
+      dataSource: [],
       isLoading: true,
-      dataSource: null,
     };
   }
 
-  compenentDidMount() {
-    return fetch("http://{ENTER IP}/user/list")
+  renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={{ flex: 1, flexDirection: "row", marginBottom: 3 }}
+      >
+        <Image
+          style={{ width: 80, height: 80, margin: 5 }}
+          source={{ uri: item.image }}
+        />
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={{ fontSize: 18, color: "green" }}>
+            CPU TEMPERATURE: {item.cpu}
+          </Text>
+          <Text style={{ fontSize: 18, color: "green" }}>
+            GPU TEMPERATURE: {item.gpu}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  renderSeparator = () => {
+    return (
+      <View
+        style={{ height: 1, width: "100%", backgroundColor: "black" }}
+      ></View>
+    );
+  };
+
+  componentDidMount() {
+    const url = "http://{ENTER IP AND PORT NUM}/temp/list";
+
+    fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
+          dataSource: responseJson,
           isLoading: false,
-          dataSource: responseJson.user,
         });
       })
-
       .catch((error) => {
         console.log(error);
       });
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.container}>
-          <ActivityIndicator />
-        </View>
-      );
-    } else {
-      let user = this.state.dataSource.map((val, key) => {
-        return (
-          <View>
-            key={key} style={styles.item}
-            <Text>{val.cpu}</Text>
-          </View>
-        );
-      });
-
-      return <View style={styles.container}>{gpu}</View>;
-    }
+    return this.state.isLoading ? (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="blue" animating />
+      </View>
+    ) : (
+      <View style={styles.container}>
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+      </View>
+    );
   }
 }
 
@@ -98,10 +85,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  item: {
-    flex: 1,
   },
 });
