@@ -9,6 +9,10 @@ npm start -> start the script for expo <br/>
 
 Install expo on your machine using the: "npm i -g expo-cli" command
 
+**To Test API Integration** <br/>
+
+- Replace the url in the InfoScreen.js file to display the data
+
 **For IOS Simulation:**
 
 - Install XCode and run a simulator for the device you choose <br/>
