@@ -1,18 +1,68 @@
 import React, { Component } from "react";
-import { Button, View, Text, StyleSheet, TextInput } from "react-native";
+import { Button, View, StyleSheet, TextInput } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import { postRequest } from "../helpers/APIClient";
+
+//create component to modulize things
 
 export default class LoginPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+    };
+  }
+  handleUsername = (text) => {
+    this.setState({ username: text });
+  };
+  handlePassword = (text) => {
+    this.setState({ password: text });
+  };
+  //---------------------------------------
+  //add validation checking for username and password
+  //-------------------
+  //handle api request error
+  signin = () => {
+    const { username, password } = this.state;
+    const credentials = {
+      username,
+      password,
+    };
+    postRequest("/signin", credentials).then(
+      (response) => {
+        console.log("I am at the end of this post request");
+        console.log(response);
+      },
+      (error) => console.log(error)
+    );
+    this.props.navigation.navigate("InfoScreen");
+
+    console.log(this.state.username);
+    console.log(this.state.password);
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <TextInput style={styles.input} placeholder="Username" />
-        <TextInput style={styles.input} placeholder="Password" />
+        <TextInput
+          style={styles.input}
+          placeholder="username"
+          onChangeText={this.handleUsername}
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="password"
+          secureTextEntry={true}
+          onChangeText={this.handlePassword}
+          autoCapitalize="none"
+        />
         <View style={styles.loginButton}>
           <Button
             type="outline"
             title="Login"
-            onPress={() => this.props.navigation.navigate("InfoScreen")}
+            onPress={this.signin}
             //Need to add authentication currently just brings you to the InfoScreen
           />
         </View>
