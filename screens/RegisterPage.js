@@ -47,7 +47,7 @@ export default class RegisterPage extends Component {
     console.log(this.state.username);
     console.log(this.state.password);
     console.log(this.state.password2);
-    this.props.navigation.navigate("InfoScreen");
+    this.props.navigation.navigate("LoginPage");
   };
 
   render() {

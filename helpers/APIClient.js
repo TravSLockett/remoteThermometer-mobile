@@ -1,4 +1,4 @@
-const baseURL = "http://192.168.1.12:1205/user";
+const baseURL = "http://localhost:1205/user";
 
 export const postRequest = async (url, params) => {
   //const token = "TOKEN";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, View, StyleSheet, TextInput } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { postRequest } from "../helpers/APIClient";
-
+import Storage from "../helpers/storage";
 //create component to modulize things
 
 export default class LoginPage extends Component {
@@ -11,7 +11,9 @@ export default class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
+      token: Storage.get("token"),
     };
+    console.log(this.state.token);
   }
   handleUsername = (text) => {
     this.setState({ username: text });
@@ -30,10 +32,13 @@ export default class LoginPage extends Component {
       password,
     };
     postRequest("/signin", credentials).then(
-      (response) => {
+      async (response) => {
         console.log("I am at the end of this post request");
-        console.log(response);
+        await Storage.set("token", response.token);
+        const curToken = await Storage.get("token");
+        console.log(curToken);
       },
+
       (error) => console.log(error)
     );
     this.props.navigation.navigate("InfoScreen");
