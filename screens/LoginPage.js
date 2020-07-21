@@ -31,20 +31,19 @@ export default class LoginPage extends Component {
       password,
     };
     try {
-      postRequest("/signin", credentials)
-        .then(
-          async (response) => {
-            console.log("I am at the end of this post request");
-            await Storage.set("token", response.token);
-            const curToken = await Storage.get("token");
-            console.log(curToken);
-          },
+      postRequest("user/signin", credentials).then(
+        async (response) => {
+          this.props.navigation.navigate("InfoScreen");
+          console.log("I am at the end of this post request");
+          await Storage.set("token", response.token);
+          const curToken = await Storage.get("token");
+          console.log(curToken);
+        },
 
-          (error) => {
-            alert("Login Error");
-          }
-        )
-        .then(this.props.navigation.navigate("InfoScreen"));
+        (error) => {
+          alert("Login Error");
+        }
+      );
     } catch {
       console.log("Error logging in");
     }

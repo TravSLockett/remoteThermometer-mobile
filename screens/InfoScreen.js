@@ -1,4 +1,6 @@
 import React from "react";
+import { postRequest, getRequest } from "../helpers/APIClient";
+import Storage from "../helpers/storage";
 import {
   StyleSheet,
   Text,
@@ -15,6 +17,7 @@ export default class InfoScreen extends React.Component {
     this.state = {
       dataSource: [],
       isLoading: true,
+      token: Storage.get("token"),
     };
   }
 
@@ -48,19 +51,22 @@ export default class InfoScreen extends React.Component {
   };
 
   componentDidMount() {
-    const url = "http://localhost:1205/temp/list";
-
-    fetch(url)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          dataSource: responseJson,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log("getting info on the info screen");
+    try {
+      getRequest("temps/list", this.state.token).then(
+        async (response) => {
+          this.setState({
+            dataSource: response,
+            isLoading: false,
+          });
+        },
+        (error) => {
+          alert("get data Error");
+        }
+      );
+    } catch {
+      console.log("Error getting data");
+    }
   }
 
   render() {
