@@ -30,7 +30,6 @@ export default class LoginPage extends Component {
       username,
       password,
     };
-    postRequest("/signin", credentials).then(
     try {
       postRequest("/signin", credentials)
         .then(
