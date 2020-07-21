@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, View, StyleSheet, TextInput } from "react-native";
+import { Alert, Button, View, StyleSheet, TextInput } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { postRequest } from "../helpers/APIClient";
 import Storage from "../helpers/storage";
@@ -24,7 +24,6 @@ export default class LoginPage extends Component {
   //---------------------------------------
   //add validation checking for username and password
   //-------------------
-  //handle api request error
   signin = () => {
     const { username, password } = this.state;
     const credentials = {
@@ -32,16 +31,24 @@ export default class LoginPage extends Component {
       password,
     };
     postRequest("/signin", credentials).then(
-      async (response) => {
-        console.log("I am at the end of this post request");
-        await Storage.set("token", response.token);
-        const curToken = await Storage.get("token");
-        console.log(curToken);
-      },
+    try {
+      postRequest("/signin", credentials)
+        .then(
+          async (response) => {
+            console.log("I am at the end of this post request");
+            await Storage.set("token", response.token);
+            const curToken = await Storage.get("token");
+            console.log(curToken);
+          },
 
-      (error) => console.log(error)
-    );
-    this.props.navigation.navigate("InfoScreen");
+          (error) => {
+            alert("Login Error");
+          }
+        )
+        .then(this.props.navigation.navigate("InfoScreen"));
+    } catch {
+      console.log("Error logging in");
+    }
 
     console.log(this.state.username);
     console.log(this.state.password);

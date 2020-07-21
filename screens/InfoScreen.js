@@ -48,7 +48,7 @@ export default class InfoScreen extends React.Component {
   };
 
   componentDidMount() {
-    const url = "http://{ENTER IP AND PORT NUM}/temp/list";
+    const url = "http://localhost:1205/temp/list";
 
     fetch(url)
       .then((response) => response.json())
