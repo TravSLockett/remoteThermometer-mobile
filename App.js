@@ -1,30 +1,35 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
-import { StackNavigation } from "react-navigation";
+import LoginPage from "./screens/LoginPage";
+import InfoScreen from "./screens/InfoScreen";
+import RegisterPage from "./screens/RegisterPage";
+import ForgotPassword from "./screens/ForgotPassword";
 
-export default function App() {
-  const [name, setName] = useState();
-  const [age, setAge] = useState();
-
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Your Name Here"
-        onChangeText={(val) => setName(val)}
-      />
-      <Text style={styles.fontStyle}>Name: {name}</Text>
-      <TextInput
-        keyboardType="numeric"
-        style={styles.input}
-        placeholder="Enter Your Age Here"
-        onChangeText={(val) => setAge(val)}
-      />
-      <Text style={styles.fontStyle}>Age: {age}</Text>
-    </View>
-  );
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
 }
+
+const AppNavigator = createStackNavigator({
+  LoginPage: {
+    screen: LoginPage,
+  },
+  InfoScreen: {
+    screen: InfoScreen,
+  },
+  RegisterPage: {
+    screen: RegisterPage,
+  },
+  ForgotPassword: {
+    screen: ForgotPassword,
+  },
+});
+
+const AppContainer = createAppContainer(AppNavigator);
 
 const styles = StyleSheet.create({
   container: {
@@ -32,16 +37,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  fontStyle: {
-    fontSize: 20,
-    color: "dodgerblue",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#777",
-    padding: 8,
-    margin: 10,
-    width: 200,
   },
 });
