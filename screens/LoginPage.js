@@ -33,11 +33,12 @@ export default class LoginPage extends Component {
     try {
       postRequest("user/signin", credentials).then(
         async (response) => {
-          this.props.navigation.navigate("InfoScreen");
-          console.log("I am at the end of this post request");
           await Storage.set("token", response.token);
-          const curToken = await Storage.get("token");
-          console.log(curToken);
+          console.log("about to print the token set");
+          console.log(await Storage.get("token"));
+          this.props.navigation.navigate("InfoScreen");
+          //console.log(this.state.username);
+          //console.log(this.state.password);
         },
 
         (error) => {
@@ -47,9 +48,6 @@ export default class LoginPage extends Component {
     } catch {
       console.log("Error logging in");
     }
-
-    console.log(this.state.username);
-    console.log(this.state.password);
   };
 
   render() {

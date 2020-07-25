@@ -17,7 +17,7 @@ export default class InfoScreen extends React.Component {
     this.state = {
       dataSource: [],
       isLoading: true,
-      token: Storage.get("token"),
+      token: "",
     };
   }
 
@@ -50,25 +50,36 @@ export default class InfoScreen extends React.Component {
     );
   };
 
-  componentDidMount() {
-    this.state.token = Storage.get("token");
-    console.log("getting info on the info screen");
-    console.log(this.state.token);
-    try {
+  getTokenFromStorage = async () => {
+    console.log("setting info screen token");
+    const tokenInStorage = await Storage.get("token");
+    this.setState({ token: tokenInStorage });
+    return tokenInStorage;
+  };
+
+  async componentDidMount() {
+    console.log("the following are info screen");
+    const to = await this.getTokenFromStorage();
+    console.log("printing to");
+    console.log(to);
+    const t =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSVCIsInN1YiI6IjVmMWI1ZWMzNzhmYTY0MjVjYjVkMjc2ZCIsImlhdCI6MTU5NTcyMDc3MDUzMywiZXhwIjoxNTk1ODA3MTcwNTMzfQ.gjffyW01SFX7HcsJ9qbL0DMDpHZZNTzyXTf6pyQG-eE";
+
+    this.getTokenFromStorage().then(
       getRequest("temp/list", this.state.token).then(
         async (response) => {
           this.setState({
             dataSource: response,
             isLoading: false,
           });
+          console.log(this.state.dataSource);
         },
         (error) => {
+          console.log("in error");
           alert("get data Error");
         }
-      );
-    } catch {
-      console.log("Error getting data");
-    }
+      )
+    );
   }
 
   render() {

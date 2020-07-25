@@ -14,7 +14,8 @@ export default class Storage {
     try {
       const value = await AsyncStorage.getItem(key);
       if (value !== null) {
-        return JSON.parse(value);
+        return value;
+        //return JSON.parse(value);
       }
     } catch (error) {
       console.log(`Error getting item from AsyncStorage: ${error}`);
