@@ -63,22 +63,20 @@ export default class InfoScreen extends React.Component {
     console.log("printing to");
     console.log(to);
     const t =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSVCIsInN1YiI6IjVmMWI1ZWMzNzhmYTY0MjVjYjVkMjc2ZCIsImlhdCI6MTU5NTcyMDc3MDUzMywiZXhwIjoxNTk1ODA3MTcwNTMzfQ.gjffyW01SFX7HcsJ9qbL0DMDpHZZNTzyXTf6pyQG-eE";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJSVCIsInN1YiI6IjVmMWI1ZWMzNzhmYTY0MjVjYjVkMjc2ZCIsImlhdCI6MTU5NTg5NTg1NTY3OSwiZXhwIjoxNTk1OTgyMjU1Njc5fQ.xLcj4G2FqH98CPilE5gWNOUiYbSqzUXZkBXDZpE2c6c";
 
-    this.getTokenFromStorage().then(
-      getRequest("temp/list", this.state.token).then(
-        async (response) => {
-          this.setState({
-            dataSource: response,
-            isLoading: false,
-          });
-          console.log(this.state.dataSource);
-        },
-        (error) => {
-          console.log("in error");
-          alert("get data Error");
-        }
-      )
+    getRequest("temp/list", to).then(
+      async (response) => {
+        this.setState({
+          dataSource: response,
+          isLoading: false,
+        });
+        console.log(this.state.dataSource);
+      },
+      (error) => {
+        console.log("in error");
+        alert("get data Error");
+      }
     );
   }
 
